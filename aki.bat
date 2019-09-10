@@ -1,0 +1,1 @@
+C:\Users\P\Documents\project\backend-stoque\nodemon
