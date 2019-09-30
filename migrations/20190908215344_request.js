@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
         table.string('customer_code').notNull()
         table.integer('user_id').notNull()
         table.boolean('status').defaultTo(false)
-        table.timestamp('date').notNull()
+        table.timestamp('date').defaultTo(knex.fn.now())
         table.timestamp('updatedAt').defaultTo(knex.fn.now())
         table.timestamp('deletedAt').defaultTo(null)
     })

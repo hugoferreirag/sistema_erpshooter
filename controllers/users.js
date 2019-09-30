@@ -24,7 +24,7 @@ module.exports = app =>{
             existsOrError(user.cargo_id,'Cargo não informado')
 
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         app.models.users.save(user,res)
     }
@@ -32,12 +32,13 @@ module.exports = app =>{
     const editUser = (req,res) =>{
         const user = { ...req.body}
         user.id = req.params.id
-      
+        if(!user.pass) delete user.pass
+        console.log(user.pass)
         try{
             existsOrError(user.id,'Id não informado')
          
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         app.models.users.editUser(user,res)
     }

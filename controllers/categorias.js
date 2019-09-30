@@ -1,6 +1,7 @@
 module.exports = app =>{
   const   {existsOrError} = app.models.validations
 
+
   const saveAcessorio = async (req,res)=>{
 
     const categoria = { ...req.body }
@@ -25,7 +26,7 @@ module.exports = app =>{
       existsOrError( categoria.caliber, 'Calibre não informado')
       existsOrError( categoria.model_box, 'Modelo não informado')
     }catch(msg){
-        return res.status(400).json(msg)
+        return res.status(202).json(msg)
     }
 
         await app.models.categorias.saveMunicao(categoria, res)
@@ -40,52 +41,13 @@ module.exports = app =>{
         existsOrError( categoria.type, 'Tipo não informado')
         existsOrError( categoria.model, 'Modelo não informado')
     }catch(msg){
-        return res.status(400).json(msg)
+        return res.status(202).json(msg)
     }
 
         await  app.models.categorias.saveArma(categoria, res)
 
   }
-  const editArma = async (req,res)=>{
-     const categoria = {...req.body}
-     categoria.id = req.params.id
-    
-    try{
-        existsOrError( categoria.id, 'Nenhuma categoria setada')
-        
-    }catch(msg){
-        return res.status(400).json(msg)
-    }
 
-        await  app.models.categorias.editArma(categoria, res)
-
-  }
-  const editAcessorio = async (req,res)=>{
-     const categoria = {...req.body}
-     categoria.id = req.params.id
-    
-    try{
-        existsOrError( categoria.id, 'Nenhuma categoria setada')
-    }catch(msg){
-        return res.status(400).json(msg)
-    }
-
-        await  app.models.categorias.editAcessorio(categoria, res)
-
-  }
-  const editMunicao = async (req,res)=>{
-     const categoria = {...req.body}
-     categoria.id = req.params.id
-    
-    try{
-       existsOrError( categoria.id, 'Nenhuma categoria setada')
-    }catch(msg){
-        return res.status(400).json(msg)
-    }
-
-        await  app.models.categorias.editMunicao(categoria, res)
-
-  }
 
   const delArma = async (req,res) => {
     const categoria = req.params.id
@@ -117,6 +79,18 @@ module.exports = app =>{
     }
     await app.models.categorias.delMunicao(categoria,res)
   }
+  const getModelArma =   (req,res) => {
+     app.models.categorias.getModelArma(req,res)
 
-  return { saveAcessorio, saveArma, saveMunicao, editArma, editMunicao, editAcessorio, delAcessorio, delMunicao, delArma }
+  }
+  const getModelAcs =   (req,res) => {
+     app.models.categorias.getModelAcs(req,res)
+
+    }
+  const getModelMunicoes =   (req,res) => {
+     app.models.categorias.getModelMunicoes(req,res)
+
+    }
+
+  return { saveAcessorio, saveArma, saveMunicao,  delAcessorio, delMunicao, delArma, getModelArma, getModelAcs, getModelMunicoes }
 }

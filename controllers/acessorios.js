@@ -29,17 +29,7 @@ module.exports = app =>{
         }
         app.models.acessorios.save(acessorio,res)
     }
-    // Editar acs
-    const editacessorio = (req,res) =>{
-        const acessorio = { ...req.body}
-        acessorio.id = req.params.id
-        try{
-            existsOrError(acessorio.id,'Id não informado')
-        }catch(msg){
-            return res.status(400).json(msg)
-        }
-        app.models.acessorios.editacessorio(acessorio,res)
-    }
+
     // Deletar acs
     const remove = (req,res) =>{
         const id  = req.params.id
@@ -51,28 +41,7 @@ module.exports = app =>{
         app.models.acessorios.remove(id,res)
 
     }
-    // Desativar acs
 
-    const lock = (req,res) =>{
-        const id  = req.params.id
-        try{
-            existsOrError(id,'Nenhuma acessório setada')
-        }catch(msg){
-            return res.status(400).json(msg)
-        }
-        app.models.acessorios.lock(id,res)
-    }
-    // Ativar acs
-
-    const unlock = (req,res) =>{
-        const id  = req.params.id
-        try{
-            existsOrError(id,'Nenhuma acessório setada')
-        }catch(msg){
-            return res.status(400).json(msg)
-        }
-        app.models.acessorios.unlock(id,res)
-    }
     // Foto acs
 
     const fileUpload = (req,res) =>{
@@ -84,5 +53,5 @@ module.exports = app =>{
         res.status(400).json('Não informado id')
         }
     }
-    return { get, save, getById, editacessorio, remove, unlock, lock, fileUpload }
+    return { get, save, getById, remove, fileUpload }
 }

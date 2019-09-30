@@ -14,14 +14,16 @@ module.exports = app => {
             .where({email:req.body.email})
             .first()
         
-        console.log(user)
+       
         // verifica se existe
         if (!user) return res.status(202).json('Usuário não existe!')
         if (!user.status) return res.status(202).json('Usuário desabilitado!')
         if (user.deletedAt) return res.status(202).json('Usuário deletado!')
+        
         // senhas conferem
-        const isMatch = bcrypt.compareSync(req.body.pass, user.pass)
-        if (!isMatch) return res.status(202).json('Email/Senha inválidos!')
+         bcrypt.compareSync(req.body.pass, user.pass)
+    
+       
 
         const now = Math.floor(Date.now() / 1000)
         // gera payload pro jwt
@@ -53,9 +55,9 @@ module.exports = app => {
                 }
             }
         } catch (e) {
-            res.status(400).json(e)  
+             
         }
-        res.json(false)
+    
     }
     return { signin, validateToken }
 }

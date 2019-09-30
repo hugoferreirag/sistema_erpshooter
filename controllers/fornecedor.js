@@ -18,7 +18,7 @@ module.exports = app =>{
             existsOrError(fornecedor.tel, 'Telefone não informado')
 
         }catch(msg){
-             return res.status(400).json(msg)
+             return res.status(202).json(msg)
 
         }
       await  app.models.fornecedor.save(fornecedor,res)
@@ -31,7 +31,7 @@ module.exports = app =>{
         try {
             existsOrError(fornecedor.id, 'Nenhum fornecedor setado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.fornecedor.editfornecedor(fornecedor,res)
 
@@ -42,7 +42,7 @@ module.exports = app =>{
         try {
             existsOrError(fornecedor, 'Nenhum fornecedor setado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.fornecedor.remove(fornecedor,res)
 
@@ -53,7 +53,7 @@ module.exports = app =>{
         try {
             existsOrError(fornecedor, 'Nenhum fornecedor setado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.fornecedor.lock(fornecedor,res)
 
@@ -64,7 +64,7 @@ module.exports = app =>{
         try {
             existsOrError(fornecedor, 'Nenhum fornecedor setado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.fornecedor.unlock(fornecedor,res)
 
@@ -75,7 +75,7 @@ module.exports = app =>{
         try {
             existsOrError(fornecedor, 'Nenhum fornecedor setado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.fornecedor.getById(fornecedor,res)
 
@@ -90,7 +90,7 @@ module.exports = app =>{
         try {
             existsOrError(fornecedor, 'Nenhum fornecedor setado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.fornecedor.getByProduct(fornecedor,res)
 

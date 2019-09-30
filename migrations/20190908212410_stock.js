@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
         table.string('caliber').notNull()
         table.integer('quantity').notNull()
         table.integer('old_quantity').notNull()
-        table.timestamp('date').notNull()
+        table.timestamp('date').defaultTo(knex.fn.now())
         table.integer('launch').notNull()
         table.integer('provider_id').notNull()
         table.string('provider').notNull()

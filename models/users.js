@@ -10,15 +10,15 @@ module.exports = app=>{
        user.pass = encryptPassword(user.pass)
         await app.db('users')
         .where({email:user.email})
+        .first()
         .then(result => {
-            const exist = result[0]
-            if(!exist){
+            if(!result){
                 app.db('users')
                 .insert(user)
                 .then(_=>res.json('Usuario cadastrado'))
                 .catch(err=>res.status(500).send(err))
             }else{
-                res.status(400).json('Email existente/invalido')
+                res.status(202).json('Email existente/invalido')
             }
         })
         
@@ -30,16 +30,13 @@ module.exports = app=>{
         .where({email:user.email})
         .first()
         .then(result => {
-            const exist = result
-            if(!exist){
+
                 app.db('users')
                 .where({id:user.id})
                 .update(user)
                 .then(_=>res.json('Usuario atualizado'))
                 .catch(err=>res.status(500).send(err))
-            }else{
-                res.status(400).json('Email existente/invalido')
-            }
+            
         })
         
     }
@@ -53,6 +50,7 @@ module.exports = app=>{
     const getById = (id,res)=>{
         app.db('users')
         .where({id:id})
+        .first()
         .then(user=>res.json(user))
         .catch(err=>res.status(500).send(err))
     }
@@ -72,7 +70,7 @@ module.exports = app=>{
         .where({id:id})
         .update({status:false})
         .then(_=>{
-            res.status(201).json('Usuario Desativado!')
+            res.status(200).json('Usuario Desativado!')
         })
         .catch(err=>res.status(500).json(err))
     }
@@ -82,7 +80,7 @@ module.exports = app=>{
         .where({id:id})
         .update({status:true})
         .then(_=>{
-            res.status(201).json('Usuario Ativado!')
+            res.status(200).json('Usuario Ativado!')
         })
         .catch(err=>res.status(500).json(err))
     }

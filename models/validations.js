@@ -35,6 +35,8 @@ module.exports = app =>{
         var Soma;
         var Resto;
         Soma = 0;
+        strCPF = strCPF.replace('.','').replace('.','').replace('-','')
+        console.log('----- ' + strCPF)
       if (strCPF == "00000000000") throw msg;
          
       for (i=1; i<=9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);

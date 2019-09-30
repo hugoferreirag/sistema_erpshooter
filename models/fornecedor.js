@@ -3,11 +3,10 @@ module.exports = app =>{
     const { existsOrError, notExistsOrError, equalsOrError } = app.models.validations
 
     const save = async (fornecedor, res) =>{
-
       await  app.db('providers')
             .insert(fornecedor)
             .then(_=> res.status(200).json('Fornecedor inserido com sucesso!'))
-            .catch(err=> res.status(500).json(err))
+            .catch(err=> {res.status(500).json(err)})
     }
     const editfornecedor = async (fornecedor,res)=>{
         await app.db('providers')
@@ -40,11 +39,14 @@ module.exports = app =>{
     const getById =  async (fornecedor,res) => {
         await app.db('providers')
             .where({id:fornecedor})
+            .whereNull('deletedAt')
+            .first()
             .then(result=>{ res.status(200).json(result)})
             .catch(err=>res.status(500).json(err))
     }
     const get =  async (req,res) => {
         await app.db('providers')
+            .whereNull('deletedAt')
             .then(result=>{ res.status(200).json(result)})
             .catch(err=>res.status(500).json(err))
 

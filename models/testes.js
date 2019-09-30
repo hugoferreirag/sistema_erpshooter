@@ -27,3 +27,8 @@ if( nova === data){
     console.log('juai')
 }
 console.log(data +' - - - -' + nova)*/
+
+let string = '994.497.330-07'
+
+let newString = string.replace('.','').replace('.','').replace('-','')
+console.log(newString)

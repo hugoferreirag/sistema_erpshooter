@@ -8,8 +8,8 @@ exports.up = function(knex, Promise) {
         table.integer('cargo_id').references('id')
             .inTable('cargos').notNull()
         table.string('pcture', 1000)
-        table.boolean('status').notNull().defaultTo(true)
-        table.boolean('admin').notNull().defaultTo(false)
+        table.boolean('status').defaultTo(true)
+        table.boolean('admin').defaultTo(false)
         table.timestamp('deletedAt').defaultTo(null)
         table.timestamp('createdAt').notNull().defaultTo(knex.fn.now())
 

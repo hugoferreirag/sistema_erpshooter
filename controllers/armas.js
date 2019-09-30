@@ -9,7 +9,7 @@ module.exports = app =>{
         try{
             existsOrError(id,'Nenhuma arma setada')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         app.models.armas.getById(id,res)
     }
@@ -25,53 +25,22 @@ module.exports = app =>{
             existsOrError(arma.nf,'NF não informado')
 
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         app.models.armas.save(arma,res)
     }
-    // Editar acs
-    const editarma = (req,res) =>{
-        const arma = { ...req.body}
-        arma.id = req.params.id
-        try{
-            existsOrError(arma.id,'Id não informado')
-        }catch(msg){
-            return res.status(400).json(msg)
-        }
-        app.models.armas.editarma(arma,res)
-    }
+  
     // Deletar acs
     const remove = (req,res) =>{
         const id  = req.params.id
         try{
             existsOrError(id,'Nenhuma arma setada')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         app.models.armas.remove(id,res)
     }
-    // Desativar acs
-
-    const lock = (req,res) =>{
-        const id  = req.params.id
-        try{
-            existsOrError(id,'Nenhuma arma setada')
-        }catch(msg){
-            return res.status(400).json(msg)
-        }
-        app.models.armas.lock(id,res)
-    }
-    // Ativar acs
-
-    const unlock = (req,res) =>{
-        const id  = req.params.id
-        try{
-            existsOrError(id,'Nenhuma arma setada')
-        }catch(msg){
-            return res.status(400).json(msg)
-        }
-        app.models.armas.unlock(id,res)
-    }
+  
     // Foto acs
 
     const fileUpload = (req,res) =>{
@@ -80,8 +49,8 @@ module.exports = app =>{
             arma.id = req.params.id
             app.models.armas.fileUpload(arma,res)
         }else{
-        res.status(400).json('Não informado id')
+        res.status(202).json('Não informado id')
         }
     }
-    return { get, save, getById, editarma, remove, unlock, lock, fileUpload }
+    return { get, save, getById, remove,  fileUpload }
 }

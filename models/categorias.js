@@ -16,25 +16,25 @@ module.exports = app => {
             .catch(err => res.status(500).json(err))
     }
     const saveArma = async (categoria, res) => {
-
         await app.db('weapons_model')
-            .where({ model: categoria.model })
+            .where({ model: `${categoria.model }`}) 
+            .first()
             .then(result => {
-                if (!result[0]) {
+                if (!result) {
                     app.db('weapons_model')
                         .insert(categoria)
                         .then(_ => res.status(200).json('Modelo inserido com sucesso!'))
                         .catch(err => res.status(500).json(err))
 
                 } else {
-                    res.status(400).json('Modelo existente!')
+                    res.status(202).json('Modelo existente!')
                 }
             })
             .catch(err => res.status(500).json(err))
     }
     const saveMunicao = async (categoria, res) => {
         await app.db('ammunition_model')
-            .where({ model_box: `${categoria.model_box}`, caliber: `${categoria.caliber}` })
+            .where({ model_box: `${categoria.model_box}`, caliber: `${categoria.caliber}`, provider_name:`${categoria.provider_name}` })
             .then(result => {
                 if (!result[0]) {
                     app.db('ammunition_model')
@@ -42,87 +42,12 @@ module.exports = app => {
                         .then(_ => res.status(200).json('Modelo inserido com sucesso!'))
                         .catch(err => res.status(500).json(err))
                 } else {
-                    res.status(400).json('Modelo existente!')
+                    res.status(202).json('Modelo existente!')
                 }
             })
             .catch(err => res.status(500).json(err))
     }
-    const editAcessorio = async (categoria, res) => {
-        await app.db('acessory_model')
-            .where({ id: categoria.id })
-            .then(result => {
-                if (result[0]) {
-                    app.db('acessory_model')
-                        .where({ model: `${categoria.model}` })
-                        .then(result => {
-                            if (!result[0]) {
-                                app.db('acessory_model')
-                                    .where({ id: categoria.id })
-                                    .update(categoria)
-                                    .then(_ => res.status(200).json('Modelo atualizado com sucesso!'))
-                                    .catch(err => res.status(500).json(err))
-                            } else {
-                                res.status(400).json('Nome Modelo não existente!')
-                            }
-                        })
-                        .catch(err => res.status(500).json(err))
-                } else {
-                    res.status(400).json('Modelo existente!')
-                }
-            })
-            .catch(err => res.status(500).json(err))
-    }
-    const editArma = async (categoria, res) => {
-        await app.db('weapons_model')
-            .where({ id: categoria.id })
-            .then(result => {
-                if (result[0]) {
-                    app.db('weapons_model')
-                        .where({ model: categoria.model })
-                        .then(result => {
-                            if (!result[0]) {
-                                app.db('weapons_model')
-                                    .where({ id: categoria.id })
-                                    .update(categoria)
-                                    .then(_ => res.status(200).json('Modelo atualizado com sucesso!'))
-                                    .catch(err => res.status(500).json(err))
-                            } else {
-                                res.status(400).json('Nome Modelo existente!')
-                            }
-                        })
-                        .catch(err => res.status(500).json(err))
 
-                } else {
-                    res.status(400).json('Modelo não existente!')
-                }
-            })
-            .catch(err => res.status(500).json(err))
-    }
-    const editMunicao = async (categoria, res) => {
-        await app.db('ammunition_model')
-            .where({ id: categoria.id })
-            .then(result => {
-                if (result[0]) {
-                    app.db('ammunition_model')
-                        .where({ model_box: `${categoria.model_box}`, caliber: `${categoria.caliber}` })
-                        .then(result => {
-                            if (!result[0]) {
-                                app.db('ammunition_model')
-                                    .where({ id: categoria.id })
-                                    .update(categoria)
-                                    .then(_ => res.status(200).json('Modelo atualizado com sucesso!'))
-                                    .catch(err => res.status(500).json(err))
-                            } else {
-                                res.status(400).json('Nome Modelo existente!')
-                            }
-                        })
-                        .catch(err => res.status(500).json(err))
-                } else {
-                    res.status(400).json('Modelo não existente!')
-                }
-            })
-            .catch(err => res.status(500).json(err))
-    }
     const delMunicao = async (categoria, res) => {
         await app.db('ammunition_model')
             .where({ id: categoria })
@@ -130,7 +55,7 @@ module.exports = app => {
                 if (result[0]) {
                     app.db('ammunition_model')
                         .where({ id: categoria })
-                        .update({ deletedAt: new Date() })
+                        .del()
                         .then(_ => res.status(200).json('Modelo deletado com sucesso!'))
                         .catch(err => res.status(500).json(err))
                 } else {
@@ -146,7 +71,7 @@ module.exports = app => {
                 if (result[0]) {
                     app.db('weapons_model')
                         .where({ id: categoria })
-                        .update({ deletedAt: new Date() })
+                        .del()
                         .then(_ => res.status(200).json('Modelo deletado com sucesso!'))
                         .catch(err => res.status(500).json(err))
                 } else {
@@ -162,15 +87,39 @@ module.exports = app => {
                 if (result[0]) {
                     app.db('acessory_model')
                         .where({ id: categoria })
-                        .update({ deletedAt: new Date() })
+                        .del()
                         .then(_ => res.status(200).json('Modelo deletado com sucesso!'))
                         .catch(err => res.status(500).json(err))
                 } else {
-                    res.status(400).json('Modelo não existente!')
+                    res.status(202).json('Modelo não existente!')
                 }
             })
             .catch(err => res.status(500).json(err))
     }
+    const getModelArma =   (req,res) => {
+      
+         app.db('weapons_model')
+            .whereNull('deletedAt')
+            .then(result=>{ res.status(200).json(result)})
+            .catch(err=>res.status(500).json(err))
 
-    return { saveAcessorio, saveArma, saveMunicao, editMunicao, editArma, editAcessorio, delArma, delAcessorio, delMunicao }
+    }
+    const getModelAcs =   (req,res) => {
+      
+         app.db('acessory_model')
+            .whereNull('deletedAt')
+            .then(result=>{ res.status(200).json(result)})
+            .catch(err=>res.status(500).json(err))
+
+    }
+    const getModelMunicoes =   (req,res) => {
+       
+         app.db('ammunition_model')
+            .whereNull('deletedAt')
+            .then(result=>{ res.status(200).json(result)})
+            .catch(err=>res.status(500).json(err))
+
+    }
+
+    return { saveAcessorio, saveArma, saveMunicao, delArma, delAcessorio, delMunicao, getModelArma,getModelMunicoes, getModelAcs }
 }

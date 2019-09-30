@@ -12,7 +12,7 @@ module.exports = app =>{
         try{
             existsOrError(id, 'Nenhum cliente selecionado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.clientes.getById(id,res)
     }
@@ -21,7 +21,7 @@ module.exports = app =>{
         try{
             existsOrError(id, 'Nenhum cliente selecionado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.clientes.getClienteCaixa(id,res)
     }
@@ -33,7 +33,6 @@ module.exports = app =>{
       
         try{
             existsOrError(cliente.name,'Nome não informado')
-            existsOrError(cliente.associate,'Informe se o cliente é sócio')
             existsOrError(cliente.cpf,'CPF não informado')
             testaCPF(cliente.cpf, 'CPF inválido')
             existsOrError(cliente.rg,'RG não informado')
@@ -50,7 +49,7 @@ module.exports = app =>{
             existsOrError(cliente.email,'Email não informado')
 
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
          await  app.models.clientes.save(cliente,res)
     }
@@ -62,7 +61,7 @@ module.exports = app =>{
             existsOrError(cliente.id,'Id não informado')
         
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
          await app.models.clientes.editcliente(cliente,res)
     }
@@ -72,7 +71,7 @@ module.exports = app =>{
         try{
             existsOrError(id, 'Nenhum cliente selecionado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.clientes.remove(id,res)
 
@@ -84,7 +83,7 @@ module.exports = app =>{
         try{
             existsOrError(id, 'Nenhum cliente selecionado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.clientes.lock(id,res)
     }
@@ -95,20 +94,23 @@ module.exports = app =>{
         try{
             existsOrError(id, 'Nenhum cliente selecionado')
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await app.models.clientes.unlock(id,res)
     }
     // Foto usuario
 
     const fileUpload = async  (req,res) =>{
-        const cliente = {...req.body}
+        let cliente = {}
+        cliente.picture = 'http://localhost:4000/'+req.file.path
+        console.log()
         cliente.id = req.params.id
      
         try{
             existsOrError(cliente.id, 'Nenhum cliente selecionado')
+            
         }catch(msg){
-            return res.status(400).json(msg)
+            return res.status(202).json(msg)
         }
         await  app.models.clientes.fileUpload(cliente,res)
     }
